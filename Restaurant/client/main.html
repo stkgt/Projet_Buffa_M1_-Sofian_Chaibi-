@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/lodash/4/lodash.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+    <title>JS Bin</title>
+</head>
+<body>
+<div id="app">
+    <form v-on:submit="ajouterRestaurant">
+        <label>
+            Nom restaurant : <input type="text" required name="nom">
+        </label>
+        <label>
+            Cuisine : <input type="text" required v-model="cuisine">
+        </label>
+
+        <button>Ajouter</button>
+    </form>
+
+    <h1>Nombre de restaurants : {{nbRestaurants}}</h1>
+
+    <Label>Recheher Restaurants <br/> </Label>
+    <input v-on:input="rechercheRestaurant" v-model="filter" type="text" name="rechercheInput">
+
+    <div id="ModificationHide">
+        <form v-on:submit="modifierRestaurant">
+            <label>
+                Nom restaurant : <input id="NomChange"  type="text"  name="nom">
+            </label>
+            <label>
+                cusine restaurant : <input id="CuisineChange" type="text" name="cuisine">
+            </label>
+            <button>Submit</button>
+        </form>
+    </div>
+
+    <FORM>
+        <SELECT v-on:change="ChangeNbPage()" name="Nombre d'élements à afficher" v-model="pageSize">
+            <OPTION>5
+            <OPTION>10
+            <OPTION>15
+            <OPTION>20
+        </SELECT>
+    </FORM>
+
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>Cuisine</th>
+            <th>supprimer</th>
+            <th>Modifier</th>
+        </tr>
+        <tbody>
+        <tr
+                v-for="r,index in restaurants"
+                v-bind:class="{bordureRouge:(index === 2)}"
+        >
+            <td v-bind:style="{backgroundColor:getColor(index)}" class="name">{{r.name}}</td>
+            <td v-bind:style="{backgroundColor:getColor(index)}" class="cuisine"> {{r.cuisine}}</td>
+            <td v-bind:style="{backgroundColor:getColor(index)}">
+                <button id="deleteButton" v-on:click="supprimerRestaurant(r)">delete</button>
+            </td>
+            <td v-bind:style="{backgroundColor:getColor(index)}">
+                <button id="modifButton" v-on:click="onClickModifier($event,r._id,index)">modifier</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button v-on:click="pagePremiere()">Premiere page</button>
+    <button v-on:click="pagePrecedente()">Précedente</button>
+    <button v-on:click="pageSuivante()">Suivante</button>
+    <button v-on:click="pageDerniere()">Derniere page</button>
+</div>
+
+</body>
+</html>
